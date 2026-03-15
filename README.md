@@ -1,4 +1,3 @@
-$readme = @'
 # LET HIM COOK 🔥
 ### Asistente de Recetas con Inteligencia Artificial
 
