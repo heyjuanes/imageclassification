@@ -159,22 +159,23 @@ Se configuró un **Application Load Balancer (ALB)** en las subredes públicas. 
 
 ---
 
-## 9. Prueba de alta disponibilidad
+## 9. Prueba de Alta Disponibilidad
 
-1. Con ambas instancias activas se verificó que la app respondía correctamente
-2. Se apagó la instancia 1 (`aws ec2 stop-instances --instance-ids i-07e6fe2148a7aee68`)
-3. El ALB detectó el fallo y redirigió el tráfico a la instancia 2 automáticamente
-4. La app siguió funcionando sin interrupción desde `us-east-1b`
-5. Se verificó el estado con:
-```powershell
-aws elbv2 describe-target-health \
-  --target-group-arn <tg-arn> \
-  --query 'TargetHealthDescriptions[*].[Target.Id,TargetHealth.State]' \
-  --output table
-```
+Se apagó la instancia 2 (us-east-1b) para simular un fallo y verificar que el sistema seguía funcionando.
 
----
+### Estado inicial — app funcionando con ambas instancias activas
+![App funcionando antes](evidencias/evidencia-1-funcionando-antespng)
 
+### Ambas instancias healthy en el Load Balancer
+![Ambas healthy](evidencias/evidencia-2-ambas-healthy)
+
+### Instancia 2 apagada — ALB detecta la caída y redirige tráfico
+![Instancia 2 caída](evidencias/evidencia-3-instancia2-caida)
+
+### App sigue funcionando desde la instancia 1 (us-east-1a)
+![App funcionando después](evidencias/evidencia-4-funcionando-despuespng)
+
+El Load Balancer detectó automáticamente que la instancia 2 estaba caída y redirigió todo el tráfico a la instancia 1, sin ninguna interrupción para el usuario final.
 ## 10. Estructura del repositorio
 ```
 lethimcook/
