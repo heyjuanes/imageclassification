@@ -1,0 +1,25 @@
+﻿services:
+  app:
+    image: heyjuanes/chef-ia:latest
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_HOST=db
+      - DB_NAME=recetas
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres123
+      - GROQ_API_KEY=TU_GROQ_API_KEY_AQUI
+    restart: always
+    depends_on:
+      - db
+  db:
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=recetas
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres123
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: always
+volumes:
+  pgdata:
